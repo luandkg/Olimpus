@@ -4,7 +4,7 @@
 Linguagem de manipulação matemática simples
 
  
-![Olimpus](https://github.com/luandkg/Olimpus/blob/master/res/P1.png)
+![Olimpus](https://github.com/luandkg/Olimpus/blob/master/res/P0.png)
 
 
 ### PALAVRAS CHAVES
@@ -45,8 +45,9 @@ Linguagem de manipulação matemática simples
 	- DO			# Inicia a execução de uma função
 	- WITH			# Realiza a passagem de parametros para uma função
 	- RUN			# Retorna o valor de uma função
+	- TO                    # Retorna o valor de uma função para a variável
 
-	- ACTION			# Inicia a definição de uma ação
+	- ACTION		# Inicia a definição de uma ação
 	- FUNCTION		# Inicia a definição de uma função
 	- REQUIRED		# Importa uma biblioteca de ACTIONS e FUNCTIONS
 	
@@ -66,6 +67,10 @@ Linguagem de manipulação matemática simples
 ### REQUISIÇÃO
 
 	- Importa uma biblioteca de ACTIONS e FUNCTIONS
+
+### CÓDIGO 1 - CONDITION_TRUE e CONDITION_FALSE
+
+![Olimpus](https://github.com/luandkg/Olimpus/blob/master/res/P1.png)
 
 ### CÓDIGO 2 - CONDITION_TRUE e CONDITION_FALSE
 
