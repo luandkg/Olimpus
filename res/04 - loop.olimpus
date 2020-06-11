@@ -1,0 +1,59 @@
+
+action main {
+
+	make l
+	def 5
+	apply l
+	
+	make v
+	def 1
+	apply v
+	
+	tab 0 
+	status " --> Iniciar Laco"
+	
+	cancel
+	
+	loop v {
+
+		tab 1
+		use l
+
+
+		add 1
+		apply l
+
+
+		use l
+		equal 8
+		make v_continuar
+		apply v_continuar
+
+		condition_true v_continuar { continue }
+		
+		use l
+		status "OI - " stack_value 
+		
+		use l
+		less 25
+		
+		apply v
+		
+		use l
+		equal 13
+		make v_parar
+		apply v_parar
+		
+		condition_true v_parar { cancel }
+		
+		
+	}
+
+	
+	tab 0 
+	status " --> Laco Terminou "
+
+}
+
+
+call main

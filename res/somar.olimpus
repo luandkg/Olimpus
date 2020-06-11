@@ -1,0 +1,20 @@
+function somar{
+
+	action param {
+		make a
+		make b
+	}
+
+	action return{
+	
+	
+		def a
+		add b
+		
+		make c
+		apply c
+		
+
+		ret c
+	}
+}

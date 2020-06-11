@@ -1,0 +1,92 @@
+
+required operador
+
+call main
+
+call pular
+
+tags A { VOAR CORRER NADAR }
+
+action main {
+
+	make p1
+	make p2
+	make p3
+	
+	
+	
+	function_get somar
+	
+	function_set matematica_somar
+
+	
+	#@HiperDef "Grande Conjunto"
+	
+	
+	
+	do matematica_somar
+		with 10
+		with 2
+	run
+	apply p1
+	
+	status " SOMANDO (10,2) = "
+	stack 
+		
+	
+	
+
+	do matematica_somar
+		with 15
+		with 5
+	to p2
+	
+	use p2
+	status " SOMANDO (15,5) = "
+	stack 
+	
+	
+	status " SOMANDO (100,-50) = "
+
+	do somar
+		with 100
+		with -50
+	run
+	apply p3
+	stack 
+	
+}
+
+
+action pular{
+
+
+	#action sal{}
+	
+	
+	def 1
+	make v
+	apply v
+
+	function_get somar
+	
+	function_set operacao_s
+	
+	condition_true v{
+	
+
+	
+		do operacao_s
+			with 7
+			with 3
+	
+		run
+	
+		make p3
+		status " SOMANDO (7,3) = "
+		apply p3
+		stack 
+	}
+
+
+}

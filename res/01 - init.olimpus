@@ -1,0 +1,36 @@
+
+call alfa
+
+action alfa {
+def 10
+
+make x
+
+apply x
+
+def 5
+
+make y
+
+apply y
+
+clean
+
+status "Valor da Pilha : "
+stack
+
+clean
+
+status "Valor da X : "
+use x
+stack
+
+clean
+
+use y
+status "Valor da Y : "
+stack 
+
+
+}
+

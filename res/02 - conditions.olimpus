@@ -1,0 +1,39 @@
+
+
+
+action main{
+
+	make x
+	def 30
+	apply x
+
+	make y
+	def 100
+	apply y
+
+	make c
+	use x
+	less y
+	apply c
+
+
+	condition_true c{
+	
+		def c
+		stack
+		status "C - VERDADEIRO"
+		white 1
+	}
+
+	
+	condition_false c{
+		status "C - FALSO"
+		white 1
+	}
+
+	
+}
+
+call main
+
+

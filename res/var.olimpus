@@ -1,0 +1,48 @@
+
+# Operacao com Variaveis
+
+make x
+def 6
+apply x
+
+make y
+def 4
+apply y
+
+def 0
+
+tab 1
+
+jump
+stack
+
+
+use x
+add y
+
+stack
+
+make c def 7 apply c
+
+neg
+mod
+
+stack
+
+redif 5
+
+stack
+
+tab 0 
+status ' --------- VALOR PADRAO ------------ '
+tab 1
+def 10
+
+
+jump
+
+stack
+
+
+
+

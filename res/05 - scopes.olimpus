@@ -1,0 +1,36 @@
+
+# OLIMPUS - PROGRAMA 1
+
+action amarelo{
+
+	do somar
+		with 10
+		with 2
+	run
+
+
+	status "SOMA : "
+	stack
+	
+}
+
+call amarelo
+
+function somar{
+
+	action param {
+		make a
+		make b
+	}
+
+	action return{
+	
+		def a
+		add b
+		
+		make c
+		apply c
+		
+		ret c
+	}
+}

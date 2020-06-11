@@ -1,0 +1,26 @@
+
+action main {
+
+	make x
+	make v
+	def 5
+	apply v
+	
+	step v {
+
+		use x
+
+		status "OI - " stack_value 
+
+		def x
+		add 1
+		apply x
+
+	}
+
+	white 1
+
+}
+
+
+call main
