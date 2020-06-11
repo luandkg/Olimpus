@@ -12,9 +12,13 @@ public class Comandos {
 	private Compiler mCompiler;
 	private ArrayList<String> mErros;
 
+	private AST_Actional mAST_Actional;
+
 	public Comandos(Compiler eCompiler, ArrayList<String> eErros) {
 		mCompiler = eCompiler;
 		mErros = eErros;
+
+		mAST_Actional = new AST_Actional(mCompiler);
 	}
 
 	public boolean Continuar() {
@@ -59,8 +63,8 @@ public class Comandos {
 		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("stack")) {
 			STA.AST_STACK();
 
-		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("stack_value")) {
-			STA.AST_STACK_VALUE();
+		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("stack_inline")) {
+			STA.AST_STACK_INLINE();
 		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("stack_value_int")) {
 			STA.AST_STACK_VALUE_INT();
 		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("stack_value_dec")) {
@@ -86,6 +90,9 @@ public class Comandos {
 		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("status")) {
 
 			STA.AST_STATUS();
+		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("status_inline")) {
+
+			STA.AST_STATUS_INLINE();
 		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("clean")) {
 
 			STA.AST_CLEAN();
@@ -116,6 +123,9 @@ public class Comandos {
 		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("to")) {
 
 			STA.AST_TO();
+		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("save")) {
+
+			STA.AST_SAVE();
 		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("great")) {
 
 			mComparacoes.AST_GREAT();
@@ -153,9 +163,21 @@ public class Comandos {
 		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("function_get")) {
 
 			AST_FUNCTION_GET(STA.getRaiz());
+
 		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("function_set")) {
 
 			AST_FUNCTION_SET(STA.getRaiz());
+
+		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("action_get")) {
+
+			mAST_Actional.AST_ACTION_GET(STA.getRaiz());
+
+		} else if (TokenC.Tipo() == TokenTipo.ID && TokenC.MesmoConteudo("action_set")) {
+
+			mAST_Actional.AST_ACTION_SET(STA.getRaiz());
+
+
+
 
 		} else if (TokenC.Tipo() == TokenTipo.ARROBA) {
 
@@ -205,7 +227,7 @@ public class Comandos {
 		AST_Passador.setValor(nome);
 
 		if (!nomeado) {
-			mErros.add("Era esperado o argumento da condição !");
+			mErros.add("Era esperado o argumento da condiï¿½ï¿½o !");
 		}
 
 		Proximo();
@@ -271,7 +293,7 @@ public class Comandos {
 		}
 
 		if (!nomeado) {
-			mErros.add("Era esperado a quantidade de repetições !");
+			mErros.add("Era esperado a quantidade de repetiï¿½ï¿½es !");
 		}
 
 		Proximo();
@@ -337,7 +359,7 @@ public class Comandos {
 		}
 
 		if (!nomeado) {
-			mErros.add("Era esperado a condição de repetição !");
+			mErros.add("Era esperado a condiï¿½ï¿½o de repetiï¿½ï¿½o !");
 		}
 
 		Proximo();

@@ -11,7 +11,7 @@ public class Escopo {
 	private Escopo mEscopoAnterior;
 
 	private ArrayList<AST> mFunction_Set;
-	private ArrayList<AST> mCall_Set;
+	private ArrayList<AST> mAction_Set;
 	private ArrayList<AST> mTag_Set;
 
 	private float VALOR;
@@ -20,6 +20,7 @@ public class Escopo {
 	private float SNAPSHOT;
 	private float RETORNAVEL;
 	private String FUNCTION_GET;
+	private String ACTION_GET;
 
 	//private Escopo mEscopo;
 
@@ -35,7 +36,7 @@ public class Escopo {
 		mEscopoAnterior = eEscopoAnterior;
 
 		mFunction_Set = new ArrayList<AST>();
-		mCall_Set = new ArrayList<AST>();
+		mAction_Set = new ArrayList<AST>();
 		mTag_Set = new ArrayList<AST>();
 
 		mRunTime = eRunTime;
@@ -68,9 +69,9 @@ public class Escopo {
 		mCancel = false;
 		mContinue = false;
 		
-		for (AST i : mEscopoAnterior.mCall_Set) {
+		for (AST i : mEscopoAnterior.mAction_Set) {
 
-			mCall_Set.add(i);
+			mAction_Set.add(i);
 
 		}
 
@@ -102,10 +103,10 @@ public class Escopo {
 		if (DO.length() > 0) {
 
 			if (ASTC.getNome().contentEquals("WITH") || ASTC.getNome().contentEquals("RUN")
-					|| ASTC.getNome().contentEquals("TO")) {
+					|| ASTC.getNome().contentEquals("TO") || ASTC.getNome().contentEquals("SAVE")) {
 
 			} else {
-				mRunTime.getErros().add("Era esperado o comando WITH, RUN ou TO ");
+				mRunTime.getErros().add("Era esperado o comando WITH, RUN, TO ou SAVE ");
 				return false;
 			}
 
@@ -145,7 +146,7 @@ public class Escopo {
 			if (divisor != 0) {
 				VALOR /= divisor;
 			} else {
-				mRunTime.getErros().add("Operação Invalida : O Divisor nao pode ser nulo !");
+				mRunTime.getErros().add("Operaï¿½ï¿½o Invalida : O Divisor nao pode ser nulo !");
 				ret = false;
 			}
 
@@ -263,9 +264,11 @@ public class Escopo {
 			}
 
 			System.out.println(mtabs + VALOR);
-		} else if (ASTC.getNome().contentEquals("STACK_VALUE")) {
+		} else if (ASTC.getNome().contentEquals("STACK_INLINE")) {
 
 			System.out.print(VALOR);
+
+
 		} else if (ASTC.getNome().contentEquals("STACK_VALUE_INT")) {
 
 			ComandosSimples.Run_Stack_Value_Int(ASTC, this);
@@ -277,9 +280,9 @@ public class Escopo {
 		} else if (ASTC.getNome().contentEquals("STATUS")) {
 
 			ComandosSimples.Run_Stack_Value_Status(ASTC, this);
+		} else if (ASTC.getNome().contentEquals("STATUS_INLINE")) {
 
-			
-		
+			System.out.print(ASTC.getValor());
 
 		} else if (ASTC.getNome().contentEquals("TAB")) {
 			TABULACAO = Integer.parseInt(ASTC.getValor());
@@ -350,6 +353,15 @@ public class Escopo {
 
 			DO = "";
 			withs.clear();
+		} else if (ASTC.getNome().contentEquals("SAVE")) {
+
+
+			ret = Action_Save(ASTC.getValor(),DO);
+
+
+
+			DO = "";
+			withs.clear();
 		} else if (ASTC.getNome().contentEquals("RET")) {
 
 			// System.out.println("RET : " + ASTC.getValor() + " : " + ASTC.getSub());
@@ -400,12 +412,24 @@ public class Escopo {
 
 			if (FUNCTION_GET.length() > 0) {
 
-				ret = DefinicaoType(FUNCTION_GET, ASTC.getValor());
+				ret = Function_Copiar(FUNCTION_GET, ASTC.getValor());
 
 			} else {
 				mRunTime.getErros().add("Houve um erro com o FUNCTION_SET : " + ASTC.getValor());
 			}
+		} else if (ASTC.getNome().contentEquals("ACTION_GET")) {
+			ACTION_GET = ASTC.getValor();
 
+			ret = Action_VerificarExistencia(ACTION_GET);
+		} else if (ASTC.getNome().contentEquals("ACTION_SET")) {
+
+			if (ACTION_GET.length() > 0) {
+
+				ret = Action_Copiar(ACTION_GET, ASTC.getValor());
+
+			} else {
+				mRunTime.getErros().add("Houve um erro com o ACTION_GET : " + ASTC.getValor());
+			}
 		} else {
 
 			mRunTime.getErros().add("AST " + ASTC.getNome());
@@ -595,9 +619,9 @@ public class Escopo {
 
 	}
 
-	public void Call_Apply(AST eAST) {
+	public void Action_Apply(AST eAST) {
 
-		mCall_Set.add(eAST);
+		mAction_Set.add(eAST);
 
 	}
 
@@ -611,11 +635,22 @@ public class Escopo {
 
 		for (AST AST_FUNCTION : mFunction_Set) {
 
-			System.out.println(" FS -> " + AST_FUNCTION.getValor());
+			System.out.println(" FUNCTION -> " + AST_FUNCTION.getValor());
 
 		}
 
 	}
+
+	public void Actions_Listar() {
+
+		for (AST AST_FUNCTION : mAction_Set) {
+
+			System.out.println(" ACTION -> " + AST_FUNCTION.getValor());
+
+		}
+
+	}
+
 
 	public boolean VerificarType(String eNome) {
 
@@ -637,7 +672,7 @@ public class Escopo {
 		}
 
 		if (enc == false) {
-			mRunTime.getErros().add("Bloco não encontrado : " + eNome);
+			mRunTime.getErros().add("Function nao encontrado : " + eNome);
 			ret = false;
 		}
 
@@ -645,7 +680,37 @@ public class Escopo {
 
 	}
 
-	public boolean DefinicaoType(String eTypeGet, String eTypeDef) {
+
+	public boolean Action_VerificarExistencia(String eNome) {
+
+		boolean enc = false;
+		boolean ret = true;
+
+		if (enc == false) {
+
+			for (AST AST_FUNCTION : mAction_Set) {
+
+				if (AST_FUNCTION.getValor().contentEquals(eNome)) {
+
+					enc = true;
+					break;
+				}
+
+			}
+
+		}
+
+		if (enc == false) {
+			mRunTime.getErros().add("Action nao encontrada : " + eNome);
+			ret = false;
+		}
+
+		return ret;
+
+	}
+
+
+	public boolean Function_Copiar(String eTypeGet, String eTypeDef) {
 
 		if (mRunTime.getErros().size() > 0) {
 			return false;
@@ -682,7 +747,7 @@ public class Escopo {
 		}
 
 		if (duplicado == true) {
-			mRunTime.getErros().add("Já existe uma FUNCTION chamada : " + eTypeDef);
+			mRunTime.getErros().add("Jï¿½ existe uma FUNCTION chamada : " + eTypeDef);
 			return false;
 		} else {
 			if (enc_action == true) {
@@ -696,6 +761,190 @@ public class Escopo {
 		return false;
 
 	}
+
+
+	public boolean Action_Copiar(String eTypeGet, String eTypeDef) {
+
+		if (mRunTime.getErros().size() > 0) {
+			return false;
+		}
+
+		 //System.out.println("Action SET :: " + eTypeGet + " -> " + eTypeDef);
+
+		boolean enc = false;
+		boolean ret = true;
+
+		AST Copiando = null;
+		boolean enc_action = false;
+		boolean duplicado = false;
+
+		Copiando = null;
+		enc_action = false;
+		duplicado = false;
+
+		for (AST AST_ACTION : mAction_Set) {
+
+			if (AST_ACTION.getValor().contentEquals(eTypeGet)) {
+
+				Copiando = AST_ACTION.copiar();
+
+				enc_action = true;
+
+			}
+
+			if (AST_ACTION.getValor().contentEquals(eTypeDef)) {
+				duplicado = true;
+				break;
+			}
+
+		}
+
+		if (duplicado == true) {
+			mRunTime.getErros().add("Ja existe uma ACTION chamada : " + eTypeDef);
+			return false;
+		} else {
+			if (enc_action == true) {
+
+				Copiando.setValor(eTypeDef);
+				mAction_Set.add(Copiando);
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+	public boolean Action_Save(String eNome,String eFunctionDO) {
+
+		boolean enc = false;
+		boolean ret = true;
+
+		if (enc == false) {
+
+			for (AST AST_FUNCTION : mAction_Set) {
+
+				if (AST_FUNCTION.getValor().contentEquals(eNome)) {
+
+					enc = true;
+					break;
+				}
+
+			}
+
+		}
+
+		if (enc == true) {
+			mRunTime.getErros().add("JÃ¡ existe uma action com esse nome : " + eNome);
+			ret = false;
+		}else{
+
+
+			//System.out.println("Grardar Function em " + eNome);
+
+			if (mRunTime.getErros().size() > 0) {
+				return false;
+			}
+
+
+			for (AST AST_FUNCTION : mFunction_Set) {
+
+				if (AST_FUNCTION.getValor().contentEquals(eFunctionDO)) {
+
+
+					AST novoAST = new AST();
+					novoAST.setNome("ACTION");
+					novoAST.setValor(eNome);
+
+					AST eFunctionAST = novoAST.criarAST("DO");
+					eFunctionAST.setValor(eFunctionDO);
+
+
+
+
+
+					AST AST_Param = null;
+					AST AST_Return = null;
+
+					for (AST ASTC : AST_FUNCTION.getASTS()) {
+
+						if (ASTC.getValor().contentEquals("param")) {
+							AST_Param = ASTC;
+						}
+						if (ASTC.getValor().contentEquals("return")) {
+							AST_Return = ASTC;
+						}
+
+					}
+
+					int Entrada = 0;
+					int CParamentros = 0;
+
+					for (AST ASTC : AST_Param.getASTS()) {
+
+						if (ASTC.getNome().contentEquals("MAKE")) {
+							CParamentros += 1;
+
+							if (Entrada >= withs.size()) {
+								mRunTime.getErros().add("FUNCTION " + AST_FUNCTION.getValor() + " faltam argumentos ");
+								return false;
+							}
+
+							AST eFunctionWith = novoAST.criarAST("WITH");
+							eFunctionWith.setValor(withs.get(Entrada));
+							eFunctionWith.setSub("Num");
+
+
+							Entrada += 1;
+
+						}
+
+					}
+
+					if (CParamentros != withs.size()) {
+						mRunTime.getErros().add("FUNCTION " + AST_FUNCTION.getValor() + " problemas com argumentos ");
+						return false;
+					}
+
+
+
+
+					// eInternal.setVALOR(mInternal.getRETORNAVEL());
+					//eInternal.Apply(eVariavel, mInternal.getRETORNAVEL());
+
+					AST novoRun = novoAST.criarAST("RUN");
+
+
+					//novoAST.ImprimirArvoreDeInstrucoes();
+
+					mAction_Set.add(novoAST);
+
+					//this.Actions_Listar();
+
+					enc = true;
+					break;
+
+
+				}
+
+
+			}
+
+
+			if (enc == false) {
+				mRunTime.getErros().add("FUNCTION nao encontrada : " + eFunctionDO);
+				ret = false;
+			}
+
+
+
+
+		}
+
+		return ret;
+
+	}
+
 
 	public boolean Runner(AST ASTRaiz, String Function_DO, ArrayList<String> withs, Escopo eInternal) {
 
@@ -716,8 +965,8 @@ public class Escopo {
 				for (AST FS : mFunction_Set) {
 					mInternal.Function_Apply(FS);
 				}
-				for (AST FS : mCall_Set) {
-					mInternal.Call_Apply(FS);
+				for (AST FS : mAction_Set) {
+					mInternal.Action_Apply(FS);
 				}
 
 				for (AST FS : mTag_Set) {
@@ -795,7 +1044,7 @@ public class Escopo {
 		}
 
 		if (enc == false) {
-			mRunTime.getErros().add("FUNCTION não encontrada : " + Function_DO);
+			mRunTime.getErros().add("FUNCTION nï¿½o encontrada : " + Function_DO);
 			ret = false;
 		}
 
@@ -817,13 +1066,12 @@ public class Escopo {
 			if (AST_FUNCTION.getValor().contentEquals(Function_DO)) {
 
 				Escopo mInternal = new Escopo(mRunTime,null);
-				// mInternal.setEscopoAnterior(OlimpusInternal.getMemoria());
 
 				for (AST FS : mFunction_Set) {
 					mInternal.Function_Apply(FS);
 				}
-				for (AST FS : mCall_Set) {
-					mInternal.Call_Apply(FS);
+				for (AST FS : mAction_Set) {
+					mInternal.Action_Apply(FS);
 				}
 
 				for (AST FS : mTag_Set) {
@@ -895,7 +1143,7 @@ public class Escopo {
 		}
 
 		if (enc == false) {
-			mRunTime.getErros().add("FUNCTION não encontrada : " + Function_DO);
+			mRunTime.getErros().add("FUNCTION nao encontrada : " + Function_DO);
 			ret = false;
 		}
 
@@ -911,7 +1159,7 @@ public class Escopo {
 		boolean enc = false;
 		boolean ret = true;
 
-		for (AST AST_ACTION : mCall_Set) {
+		for (AST AST_ACTION : mAction_Set) {
 
 			if (AST_ACTION.getValor().contentEquals(ASTRaiz.getValor())) {
 
@@ -920,8 +1168,8 @@ public class Escopo {
 				for (AST FS : mFunction_Set) {
 					mInternal.Function_Apply(FS);
 				}
-				for (AST FS : mCall_Set) {
-					mInternal.Call_Apply(FS);
+				for (AST FS : mAction_Set) {
+					mInternal.Action_Apply(FS);
 				}
 
 				for (AST FS : mTag_Set) {
@@ -944,7 +1192,7 @@ public class Escopo {
 		}
 
 		if (enc == false) {
-			mRunTime.getErros().add("ACTION não encontrada " + ASTRaiz.getValor());
+			mRunTime.getErros().add("ACTION nï¿½o encontrada " + ASTRaiz.getValor());
 			ret = false;
 		}
 

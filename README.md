@@ -17,9 +17,12 @@ Linguagem de manipulação matemática simples
 	- APPLY x 		# Atribui o valor de execução à variável x
 	- USE x 		# Atribui o valor da variável x ao valor de execução
 	
-	- STACK			# Mostra o valor de execução no Terminal
+	- STACK			# Mostra o valor de execução no Terminal em uma nova linha
+	- STACK_INLINE          # Mostra o valor de execução no Terminal
 	- TAB 1			# Atribui o 1 ao valor de Identação 
-	- STATUS "OPERAÇÕES"	# Mostra o texto no Terminal
+	- STATUS ""     	# Mostra o texto no Terminal em uma nova linha
+	- STATUS_INLINE ""      # Mostra o texto no Terminal 
+
 	- WHITE 1		# Salta linhas em branco no Terminal
 	
 	- CLEAN			# Atribui 0 ao valor de execução
@@ -43,10 +46,15 @@ Linguagem de manipulação matemática simples
 	- WITH			# Realiza a passagem de parametros para uma função
 	- RUN			# Retorna o valor de uma função
 	- TO                    # Retorna o valor de uma função para a variável
-
+    - SAVE                  # Salva a FUNCTION em uma nova ACTION
 	- ACTION		# Inicia a definição de uma ação
 	- FUNCTION		# Inicia a definição de uma função
 	- REQUIRED		# Importa uma biblioteca de ACTIONS e FUNCTIONS
+	
+	- FUNCTION_GET          # Obtem o endereço de uma FUNCTION
+	- FUNCTION_SET          # Cria uma nova FUNCTION com o endereço da função anterior
+	- ACTION_GET            # Obtem o endereço de uma ACTION
+	- ACTION_SET            # Cria uma nova ACTION com o endereço da função anterior
 	
 	
 ### AÇÃO

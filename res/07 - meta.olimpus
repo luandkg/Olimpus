@@ -1,0 +1,91 @@
+
+
+call main
+
+
+action main {
+
+	action_get acordar
+	action_set acorde
+
+
+	function_get somando
+	function_set matematica_somar
+	
+
+	do matematica_somar
+		with 10
+		with 2
+	run
+
+
+	do somando
+	    with 2
+	    with 8
+	save s2
+
+    status " -->> Transformar Funcao : Somando { 2 , 8 } em Action S2"
+
+	call s2
+
+	def 1
+	make v
+	apply v
+
+	condition_true v {
+
+	    status " Passou de Escopo"
+
+	    call s2
+	}
+
+    call acorde
+
+	
+}
+
+action acordar{
+
+    def 5
+
+    status " Acordando : "
+    stack
+
+}
+
+
+
+
+function somando{
+
+	action init {}
+
+	action param {
+		make a
+		make b
+		def 10
+	}
+
+	action return{
+
+
+		def a
+		add b
+
+		make c
+		apply c
+
+
+        status " SOMANDO ( "
+        def a
+        stack_inline
+        status_inline " , "
+        def b
+        stack_inline
+        status_inline " ) = "
+        def c
+        stack_inline
+
+		ret c
+	}
+}

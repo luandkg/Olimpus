@@ -1,0 +1,19 @@
+
+
+call main
+
+tags c {c1 c2 c3 }
+
+action main {
+
+
+	
+	use c_c1 status " TAG C_C1 : " stack
+	use c_c2 status " TAG C_C2 : " stack
+	use c_c3 status " TAG C_C3 : " stack
+	
+	
+	
+	
+}
+

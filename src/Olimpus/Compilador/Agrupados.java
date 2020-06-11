@@ -50,7 +50,7 @@ public class Agrupados {
 		AST_Corrente.setValor(nome);
 
 		if (!nomeado) {
-			mErros.add("Era esperado o nome da ação !");
+			mErros.add("Era esperado o nome da variavel !");
 		}
 
 		Proximo();
@@ -110,7 +110,7 @@ public class Agrupados {
 		AST_Corrente.setValor(nome);
 
 		if (!nomeado) {
-			mErros.add("Era esperado o nome da Função !");
+			mErros.add("Era esperado o nome da Funï¿½ï¿½o !");
 		}
 
 		Proximo();
@@ -140,7 +140,7 @@ public class Agrupados {
 					break;
 				} else {
 
-					mErros.add("Era esperado blocos de Ações !");
+					mErros.add("Era esperado blocos de Aï¿½ï¿½es !");
 
 				}
 

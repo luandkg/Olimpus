@@ -31,7 +31,7 @@ public class RunTime {
 
 		for (AST ASTC : mASTS) {
 			if (ASTC.getNome().contentEquals("ACTION")) {
-				OlimpusInternal.Call_Apply(ASTC);
+				OlimpusInternal.Action_Apply(ASTC);
 			} else if (ASTC.getNome().contentEquals("FUNCTION")) {
 				OlimpusInternal.Function_Apply(ASTC);
 			} else if (ASTC.getNome().contentEquals("OLIMPUS")) {

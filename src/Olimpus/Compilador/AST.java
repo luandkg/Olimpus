@@ -4,134 +4,144 @@ import java.util.ArrayList;
 
 public class AST {
 
-	private String mNome;
-	private String mValor;
-	private String mSub;
+    private String mNome;
+    private String mValor;
+    private String mSub;
 
-	private ArrayList<AST> mASTS;
+    private ArrayList<AST> mASTS;
 
-	public AST() {
+    public AST() {
 
-		mASTS = new ArrayList<>();
+        mASTS = new ArrayList<>();
 
-		mNome = "";
-		mValor = "";
-		mSub = "";
+        mNome = "";
+        mValor = "";
+        mSub = "";
 
-	}
+    }
 
-	public ArrayList<AST> getASTS() {
-		return mASTS;
-	}
+    public ArrayList<AST> getASTS() {
+        return mASTS;
+    }
 
-	public String getNome() {
-		return mNome;
-	}
+    public String getNome() {
+        return mNome;
+    }
 
-	public void setNome(String eNome) {
-		mNome = eNome;
-	}
+    public void setNome(String eNome) {
+        mNome = eNome;
+    }
 
-	public String getValor() {
-		return mValor;
-	}
+    public String getValor() {
+        return mValor;
+    }
 
-	public void setValor(String eValor) {
-		mValor = eValor;
-	}
+    public void setValor(String eValor) {
+        mValor = eValor;
+    }
 
-	public String getSub() {
-		return mSub;
-	}
+    public String getSub() {
+        return mSub;
+    }
 
-	public void setSub(String eSub) {
-		mSub = eSub;
-	}
+    public void setSub(String eSub) {
+        mSub = eSub;
+    }
 
-	public AST getAST(String eAST) {
-		AST mRet = null;
+    public AST getAST(String eAST) {
+        AST mRet = null;
 
-		for (AST mAST : mASTS) {
-			if (mAST.getNome().contentEquals(eAST)) {
-				mRet = mAST;
-				break;
-			}
-		}
+        for (AST mAST : mASTS) {
+            if (mAST.getNome().contentEquals(eAST)) {
+                mRet = mAST;
+                break;
+            }
+        }
 
-		return mRet;
-	}
+        return mRet;
+    }
 
-	public AST criarAST(String eAST) {
-		AST mRet = new AST();
-mRet.setNome(eAST);
-		mASTS.add(mRet);
-		
+    public AST getBranch(String eAST) {
+        AST mRet = null;
 
-		return mRet;
-	}
-	
-	
-	public AST copiar() {
-		
-		
-		AST copia = new AST();
-		copia.setNome(this.getNome());
-		copia.setValor(this.getValor());
-		copia.setSub(this.getSub());
+        for (AST mAST : mASTS) {
+            if (mAST.getNome().contentEquals(eAST)) {
+                mRet = mAST;
+                break;
+            }
+        }
 
-		for (AST a : getASTS()) {
-			
-			copia.getASTS().add(a.copiar());
-			
-		}
-		
-		return copia;
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	public void ImprimirArvoreDeInstrucoes() {
+        return mRet;
+    }
 
-		System.out.println( this.getNome() + " -> " + this.getValor());
+    public AST criarAST(String eAST) {
 
-		for (AST a : getASTS()) {
+        AST mRet = new AST();
+        mRet.setNome(eAST);
+        mASTS.add(mRet);
 
-			System.out.println(" " + a.getNome() + " -> " + a.getValor());
 
-			ImprimirSubArvoreDeInstrucoes("   ", a);
+        return mRet;
+    }
 
-		}
 
-	}
+    public AST copiar() {
 
-	private void ImprimirSubArvoreDeInstrucoes(String ePref, AST ASTC) {
 
-		for (AST a : ASTC.getASTS()) {
+        AST copia = new AST();
+        copia.setNome(this.getNome());
+        copia.setValor(this.getValor());
+        copia.setSub(this.getSub());
 
-			System.out.println(ePref + a.getNome() + " -> " + a.getValor());
+        for (AST a : getASTS()) {
 
-			ImprimirSubArvoreDeInstrucoes(ePref + "   ", a);
+            copia.getASTS().add(a.copiar());
 
-		}
+        }
 
-	}
-	
-	
-	public boolean seuNome(String eNome) {
-		return this.mNome.contentEquals(eNome);
-	}
+        return copia;
 
-	public boolean seuValor(String eValor) {
-		return this.mValor.contentEquals(eValor);
-	}
 
-	public boolean seuSub(String eSub) {
-		return this.mSub.contentEquals(eSub);
-	}
-	
+    }
+
+
+    public void ImprimirArvoreDeInstrucoes() {
+
+        System.out.println(this.getNome() + " -> " + this.getValor());
+
+        for (AST a : getASTS()) {
+
+            System.out.println("        " + a.getNome() + " -> " + a.getValor());
+
+            ImprimirSubArvoreDeInstrucoes("   ", a);
+
+        }
+
+    }
+
+    private void ImprimirSubArvoreDeInstrucoes(String ePref, AST ASTC) {
+
+        for (AST a : ASTC.getASTS()) {
+
+            System.out.println(ePref + a.getNome() + " -> " + a.getValor());
+
+            ImprimirSubArvoreDeInstrucoes(ePref + "   ", a);
+
+        }
+
+    }
+
+
+    public boolean seuNome(String eNome) {
+        return this.mNome.contentEquals(eNome);
+    }
+
+    public boolean seuValor(String eValor) {
+        return this.mValor.contentEquals(eValor);
+    }
+
+    public boolean seuSub(String eSub) {
+        return this.mSub.contentEquals(eSub);
+    }
+
 }

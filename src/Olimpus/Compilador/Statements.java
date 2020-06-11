@@ -27,10 +27,10 @@ public class Statements {
 		mASTRaiz.getASTS().add(AST_Corrente);
 	}
 
-	public void AST_STACK_VALUE() {
+	public void AST_STACK_INLINE() {
 
 		AST AST_Corrente = new AST();
-		AST_Corrente.setNome("STACK_VALUE");
+		AST_Corrente.setNome("STACK_INLINE");
 
 		mASTRaiz.getASTS().add(AST_Corrente);
 	}
@@ -129,6 +129,32 @@ public class Statements {
 		mASTRaiz.getASTS().add(AST_Corrente);
 	}
 
+	public void AST_STATUS_INLINE() {
+
+		AST AST_Corrente = new AST();
+		AST_Corrente.setNome("STATUS_INLINE");
+
+		mCompiler.Proximo();
+		boolean valorado = false;
+		String valor = "0";
+
+		if (mCompiler.Continuar()) {
+			Token TokenC2 =mCompiler.getTokenCorrente();
+			if (TokenC2.Tipo() == TokenTipo.TEXTO) {
+				valorado = true;
+				valor = (TokenC2.Conteudo());
+			}
+		}
+
+		AST_Corrente.setValor(valor);
+
+		if (!valorado) {
+			mCompiler.getErros().add("Era esperado um Texto !");
+		}
+
+		mASTRaiz.getASTS().add(AST_Corrente);
+	}
+
 	public void AST_CLEAN() {
 
 		AST AST_Corrente = new AST();
@@ -173,7 +199,7 @@ public class Statements {
 		AST_Corrente.setValor(valor);
 
 		if (!valorado) {
-			mCompiler.getErros().add("Era esperado o nome de uma ação !");
+			mCompiler.getErros().add("Era esperado o nome de uma aï¿½ï¿½o !");
 		}
 
 		mASTRaiz.getASTS().add(AST_Corrente);
@@ -199,7 +225,7 @@ public class Statements {
 		AST_Corrente.setValor(valor);
 
 		if (!valorado) {
-			mCompiler.getErros().add("Era esperado o nome de uma função !");
+			mCompiler.getErros().add("Era esperado o nome de uma funï¿½ï¿½o !");
 		}
 
 		mASTRaiz.getASTS().add(AST_Corrente);
@@ -226,6 +252,32 @@ public class Statements {
 
 		if (!valorado) {
 			mCompiler.getErros().add("Era esperado o nome de uma variavel !");
+		}
+
+		mASTRaiz.getASTS().add(AST_Corrente);
+	}
+
+	public void AST_SAVE() {
+
+		AST AST_Corrente = new AST();
+		AST_Corrente.setNome("SAVE");
+
+		mCompiler.Proximo();
+		boolean valorado = false;
+		String valor = "0";
+
+		if (mCompiler.Continuar()) {
+			Token TokenC2 = mCompiler.getTokenCorrente();
+			if (TokenC2.Tipo() == TokenTipo.ID) {
+				valorado = true;
+				valor = (TokenC2.Conteudo());
+			}
+		}
+
+		AST_Corrente.setValor(valor);
+
+		if (!valorado) {
+			mCompiler.getErros().add("Era esperado o nome para uma action !");
 		}
 
 		mASTRaiz.getASTS().add(AST_Corrente);
