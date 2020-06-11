@@ -1,11 +1,8 @@
-#### Linguagem OLIMPUS
-
-
-Linguagem de manipulação matemática simples
 
  
 ![Olimpus](https://github.com/luandkg/Olimpus/blob/master/res/P0.png)
 
+Linguagem de manipulação matemática simples
 
 ### PALAVRAS CHAVES
 
@@ -68,7 +65,7 @@ Linguagem de manipulação matemática simples
 
 	- Importa uma biblioteca de ACTIONS e FUNCTIONS
 
-### CÓDIGO 1 - CONDITION_TRUE e CONDITION_FALSE
+### CÓDIGO 1 - ESCOPO PRINCIPAL
 
 ![Olimpus](https://github.com/luandkg/Olimpus/blob/master/res/P1.png)
 
